@@ -1,8 +1,8 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material';
+import { Component, Inject } from '@angular/core';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 export interface DialogData {
-  animal: 'Panda' | 'unicorn' | 'lion';
+  title: string;
 }
 
 @Component({
@@ -10,20 +10,22 @@ export interface DialogData {
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.css']
 })
-export class CreateComponent implements OnInit {
+export class CreateComponent {
+
+  title: string;
 
   constructor(public dialog: MatDialog) { }
 
-  ngOnInit() {
-  }
-
   openDialog() {
-    this.dialog.open(CreateEventDialog, {
-      width: '250px',
-      height: '250px',
-      data: {
-        animal: 'anda'
-      }
+    const dialogRef = this.dialog.open(CreateEventDialog, {
+      width: 'auto',
+      height: 'auto',
+      data: { title: this.title }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      this.title = result;
     });
   }
 }
@@ -34,5 +36,11 @@ export class CreateComponent implements OnInit {
 })
 
 export class CreateEventDialog {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+  constructor(
+    public dialogRef: MatDialogRef<CreateEventDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+
+  onNoClick(): void{
+    this.dialogRef.close();
+  }
 }

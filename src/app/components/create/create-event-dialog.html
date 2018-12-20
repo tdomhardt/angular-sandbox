@@ -1,15 +1,10 @@
-<h1 mat-dialog-title>Favorite Animal</h1>
+<h1 mat-dialog-title>Foo Bazz</h1>
 <mat-dialog-content>
-  My favorite animal is:
-  <ul>
-    <li>
-      <span *ngIf="data.animal === 'panda'">&#10003;</span> Panda
-    </li>
-    <li>
-      <span *ngIf="data.animal === 'unicorn'">&#10003;</span> Unicorn
-    </li>
-    <li>
-      <span *ngIf="data.animal === 'lion'">&#10003;</span> Lion
-    </li>
-  </ul>
+  <mat-form-field>
+      Title:  <input matInput [(ngModel)]="data.title">
+  </mat-form-field>
 </mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button mat-button [mat-dialog-close]="data.title" cdkFocusInitial>Ok</button>
+</mat-dialog-actions>
